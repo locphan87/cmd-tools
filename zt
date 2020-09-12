@@ -1,0 +1,18 @@
+#!/bin/sh
+echo "Creating a new Zettel"
+
+DATE_FORMAT="%Y%m%d.%H%M%S"
+
+read -p "Enter your title: " title
+newTitle=$(echo $title | tr " " "-" | tr '[:upper:]' '[:lower:]')
+
+read -p "Enter your tags: " tags
+
+# Making the file name
+FILE_NAME=$(date +$DATE_FORMAT).$newTitle.md
+# Add title and tags to the file
+echo "# $title\n$tags\n" > $FILE_NAME
+
+# Open the file and move to the end of file
+vim "+normal Go" $FILE_NAME
+
