@@ -1,20 +1,23 @@
 {
-  "name": "cmd-tools",
+  "name": "cli-tools",
   "version": "1.0.0",
-  "description": "Command line tools",
-  "scripts": {},
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/phanhoangloc/cmd-tools"
-  },
-  "keywords": [
-    "cli"
-  ],
-  "author": "Loc Phan <phanhoangloc@gmail.com>",
-  "licence": "MIT",
+  "private": true,
+  "homepage": "https://github.aus.thenational.com/P794744/cli-tools",
   "dependencies": {
+    "insert-if": "1.2.0",
     "match-values": "1.1.0",
     "open": "6.4.0",
     "yargs": "13.3.0"
+  },
+  "scripts": {
+    "prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+
+    "lint": "eslint 'src/**/*.js' --fix",
+    "format": "yarn prettier && yarn lint"
+  },
+  "devDependencies": {
+    "eslint": "7.10.0",
+    "eslint-config-prettier": "6.12.0",
+    "prettier": "2.1.2"
   }
 }

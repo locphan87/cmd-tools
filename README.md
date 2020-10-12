@@ -1,8 +1,41 @@
-# cmd-tools
+# Command line tools
 
-Command line tools
+| cli-tool   | description                          |
+| ---------- | ------------------------------------ |
+| ekill      | Kill a process as safely as possible |
+| ws | Web search
 
-- ekill: Kill a process as safely as possible
-- gt: git tools to view repository content
-- soffice: a shortcut to run `soffice` CLI on Mac OS
-- web-apps: Open web apps in the default browser
+## Setup
+
+Add this directory to \$PATH so you can run these tools from everywhere
+
+```sh
+echo 'export PATH="/path/to/cli-tools/bin:$PATH"' >> ~/.bashrc
+```
+
+## Usage
+### ekill
+
+```sh
+ekill <pid>
+```
+
+### ws
+
+View command helps
+
+```sh
+ws -h
+```
+
+View command helps for a site
+
+```sh
+ws -s <site> -h
+```
+
+Tips: create [aliases](./alias.sh) for sites
+
+## Config file
+
+Ref [.wsrc.js](./.wsrc.js)
