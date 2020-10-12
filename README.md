@@ -4,6 +4,7 @@
 | ---------- | ------------------------------------ |
 | ekill      | Kill a process as safely as possible |
 | ws | Web search
+| soffice | Run Open Office from the command line
 
 ## Setup
 
@@ -22,20 +23,23 @@ ekill <pid>
 
 ### ws
 
-View command helps
+View ws helps
 
 ```sh
 ws -h
 ```
 
-View command helps for a site
+View helps for a command
 
 ```sh
-ws -s <site> -h
+ws <command> -h
 ```
 
-Tips: create [aliases](./alias.sh) for sites
+Tips: create aliases for sites
 
-## Config file
+```sh
+alias mySite="ws mySite"
+```
 
-Ref [.wsrc.js](./.wsrc.js)
+The config file `.wsrc.js` exports an arbitrary object that you can access from `argv`
+
