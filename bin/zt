@@ -1,9 +1,11 @@
 #!/bin/sh
 echo "Creating a new Zettel"
 
+# YMD.HMS
 DATE_FORMAT="%Y%m%d.%H%M%S"
 
 read -p "Enter your title: " title
+# Replace space by dash and convert to lowercase
 newTitle=$(echo $title | tr " " "-" | tr '[:upper:]' '[:lower:]')
 
 read -p "Enter your tags: " tags

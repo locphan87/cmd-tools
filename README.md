@@ -4,7 +4,8 @@
 | ---------- | ------------------------------------ |
 | ekill      | Kill a process as safely as possible |
 | ws | Web search
-| soffice | Run Open Office from the command line
+| soffice | Run Open Office
+| zt | Create a [Zettel](https://en.wikipedia.org/wiki/Zettelkasten)
 
 ## Setup
 
