@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://github.aus.thenational.com/P794744/cli-tools",
   "dependencies": {
+    "dotenv": "8.2.0",
     "insert-if": "1.2.0",
     "match-values": "1.1.0",
     "open": "6.4.0",
@@ -11,7 +12,6 @@
   },
   "scripts": {
     "prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-
     "lint": "eslint 'src/**/*.js' --fix",
     "format": "yarn prettier && yarn lint"
   },
