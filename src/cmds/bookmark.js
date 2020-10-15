@@ -1,14 +1,41 @@
 const { handleURL, throwError } = require('../utils')
-const { bookmarks } = require('../../.wsrc')
+const { bookmarks, bookmarkConfig } = require('../../.wsrc')
+
+const getBookmarksFromTag = (tag) => {
+  return Object.keys(bookmarkConfig).reduce((acc, k) => {
+    const [_name, _url, tags] = bookmarkConfig[k]
+    if (tags.includes(`#${tag}`)) return acc.concat(k)
+    return acc
+  }, [])
+}
+const getTags = () => {
+  return Object.keys(bookmarkConfig).reduce((acc, k) => {
+    const [_, __, tags] = bookmarkConfig[k]
+    const tagList = tags.replace(/#/g, '').split(',')
+    return acc.concat(tagList)
+  }, [])
+}
 
 module.exports = {
   command: 'bookmark <alias>',
   aliases: ['fav'],
   describe: 'Open web sites in your bookmarks',
   builder: (yargs) => {
-    return yargs.completion('completion', () => {
-      return Object.keys(bookmarks)
-    })
+    return yargs
+      .options({
+        tag: {
+          alias: 't',
+          type: 'string',
+        },
+        tags: {
+          type: 'boolean',
+        },
+      })
+      .completion('completion', (_, argv) => {
+        if (argv.tag) return getBookmarksFromTag(argv.tag)
+        if (argv.tags) return getTags()
+        return Object.keys(bookmarks)
+      })
   },
   handler: (argv) => {
     const { alias, bookmarks } = argv
