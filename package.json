@@ -7,8 +7,8 @@
     "dotenv": "8.2.0",
     "insert-if": "1.2.0",
     "match-values": "1.1.0",
-    "open": "6.4.0",
-    "yargs": "13.3.0"
+    "open": "7.3.0",
+    "yargs": "16.0.3"
   },
   "scripts": {
     "prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
@@ -16,7 +16,7 @@
     "format": "yarn prettier && yarn lint"
   },
   "devDependencies": {
-    "eslint": "7.10.0",
+    "eslint": "7.11.0",
     "eslint-config-prettier": "6.12.0",
     "prettier": "2.1.2"
   }

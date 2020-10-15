@@ -1,31 +1,33 @@
 const { execSync } = require('child_process')
-const { handleURL, buildURL, match, insertIf } = require('../utils')
+const { repos } = require('../../.wsrc')
+const { throwError, handleURL, buildURL, match, insertIf } = require('../utils')
 
 const getCurrentBranch = () => {
   return execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
 }
-const builder = {
+const actions = [
+  'pull',
+  'pulls',
+  'branch',
+  'branches',
+  'compare',
+  'labels',
+  'releases',
+  'issues',
+  'milestones',
+  'contributors',
+  'pr',
+]
+const options = {
   action: {
     description: 'Action name',
-    choices: [
-      'pull',
-      'pulls',
-      'branch',
-      'branches',
-      'compare',
-      'free',
-      'filepath',
-      'labels',
-      'releases',
-      'issues',
-      'milestones',
-      'contributors',
-      'new-pr',
-      'open',
-    ],
-    demandOption: true,
+    choices: actions,
     alias: 'a',
-    default: 'open',
+  },
+  user: {
+    description: 'Username',
+    type: 'string',
+    alias: 'u',
   },
   param: {
     description: 'Action parameter',
@@ -36,11 +38,6 @@ const builder = {
     description: 'Base branch',
     type: 'string',
     default: 'develop',
-  },
-  path: {
-    description: 'File path',
-    type: 'string',
-    default: 'README.md',
   },
   branch: {
     description: 'Git branch (use for compare)',
@@ -60,32 +57,40 @@ const hosts = {
 }
 
 module.exports = {
-  command: 'gt <repo>',
-  builder,
-  aliases: ['gh', 'github', 'git'],
+  command: 'gh [repo]',
+  builder: (yargs) => {
+    return yargs.options(options).completion('completion', (_, argv) => {
+      if (argv.action) return actions
+      return Object.keys(repos)
+    })
+  },
+  aliases: ['github'],
   describe: 'Open Git repositories in the browser',
   handler: (argv) => {
-    const { action, server, param, base, filepath, repos } = argv
+    const { action, server, param, base, repos } = argv
     const getBranch = () => {
       if (action !== 'compare') return ''
       return argv.branch || getCurrentBranch()
     }
     const actionLink = match(action, {
-      'new-pr': 'pull-requests/new',
+      pr: 'pull-requests/new',
       contributors: 'graphs/contributors',
-      filepath: `blob/${base}/${filepath}`,
       labels: ['labels', ...insertIf(param, param)].join('/'),
-      open: '',
       pull: `pull/${param}`,
       branch: `tree/${param}`,
       compare: `compare/${base}...${getBranch()}`,
-      free: param,
-      _: action,
+      _: '',
     })
     const repo = repos[argv.repo]
+
+    if (argv.repo && !repo) {
+      throwError(`Repo alias ${argv.repo} is invalid`)
+    }
+
     const url = buildURL([
       hosts[server],
-      ...insertIf(action !== 'free', repo.user, repo.name),
+      argv.repo ? repo.user : argv.user,
+      ...insertIf(argv.repo, repo.name),
       actionLink,
     ])
     handleURL({ argv, url })

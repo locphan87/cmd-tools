@@ -1,18 +1,21 @@
-const { handleURL } = require('../utils')
+const { handleURL, throwError } = require('../utils')
 const { bookmarks } = require('../../.wsrc')
 
 module.exports = {
   command: 'bookmark <alias>',
-  builder: (yargs) => {
-    return yargs.positional('alias', {
-      choices: Object.keys(bookmarks),
-    })
-  },
   aliases: ['fav'],
   describe: 'Open web sites in your bookmarks',
+  builder: (yargs) => {
+    return yargs.completion('completion', () => {
+      return Object.keys(bookmarks)
+    })
+  },
   handler: (argv) => {
-    const { alias } = argv
+    const { alias, bookmarks } = argv
     const url = bookmarks[alias]
+    if (!url) {
+      throwError(`Invalid alias ${alias}`)
+    }
     handleURL({ argv, url })
   },
 }

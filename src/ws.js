@@ -5,9 +5,9 @@ const config = require('../.wsrc')
 const run = () => {
   yargs
     .usage(`Web search \n\nUsage: $0 [options]`)
+    .config(config)
     .commandDir('cmds')
     .demandCommand()
-    .config(config)
     .options({
       verbose: {
         description: 'verbose mode',

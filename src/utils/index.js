@@ -3,6 +3,14 @@ const { execSync } = require('child_process')
 const match = require('match-values').default
 const insertIf = require('insert-if').default
 
+const throwError = (message) => {
+  console.error(
+    `${colors.FgRed}%s${colors.FgBlue}%s${colors.Reset}`,
+    'Error: ',
+    message
+  )
+  process.exit(-1)
+}
 const checkRequired = (argv, options) => {
   Object.keys(options).forEach((k) => {
     const v = argv[k]
@@ -11,7 +19,7 @@ const checkRequired = (argv, options) => {
     const { name, values } = requiredFor
     if (!values.includes(argv[name])) return
     if (v) return
-    throw new Error(`${k} is missing`)
+    throwError(`${k} is missing`)
   })
 }
 const colors = {
@@ -39,30 +47,21 @@ const buildURL = (items) => {
   return items.join('/')
 }
 const handleURL = (options) => {
-  try {
-    const { url, argv } = options
+  const { url, argv } = options
 
-    if (argv.verbose) {
-      console.info({ argv, url })
-    }
+  if (argv.verbose) {
+    console.info({ argv, url })
+  }
 
-    if (argv.copy) {
-      execSync(`echo ${url} | pbcopy`)
-      console.info('Copied the URL to the clipboard')
-    }
+  if (argv.copy) {
+    execSync(`echo ${url} | pbcopy`)
+    console.info('Copied the URL to the clipboard')
+  }
 
-    if (argv.browser) {
-      openInBrowser(url, argv.browser)
-    } else {
-      openInBrowser(url)
-    }
-  } catch (err) {
-    console.error(
-      `${colors.FgRed}%s${colors.FgBlue}%s${colors.Reset}`,
-      'Error: ',
-      err.message
-    )
-    process.exit(-1)
+  if (argv.browser) {
+    openInBrowser(url, argv.browser)
+  } else {
+    openInBrowser(url)
   }
 }
 
@@ -73,5 +72,6 @@ module.exports = {
   buildURL,
   checkRequired,
   colors,
+  throwError,
   handleURL,
 }
