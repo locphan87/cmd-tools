@@ -3,12 +3,23 @@ const { execSync } = require('child_process')
 const match = require('match-values').default
 const insertIf = require('insert-if').default
 
-const throwError = (message) => {
+const throwError = (message, value, suggestionList) => {
   console.error(
     `${colors.FgRed}%s${colors.FgBlue}%s${colors.Reset}`,
     'Error: ',
     message
   )
+  if (value && suggestionList) {
+    const list = suggestionList.reduce((acc, v) => {
+      if (v.includes(value)) return acc.concat(v)
+      return acc
+    }, [])
+    console.info(
+      `${colors.FgYellow}%s${colors.Reset}`,
+      'Suggestions:',
+      list.join(', ')
+    )
+  }
   process.exit(-1)
 }
 const checkRequired = (argv, options) => {
