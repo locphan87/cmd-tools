@@ -7,27 +7,42 @@ const getCurrentBranch = () => {
 }
 const actions = [
   'pull',
-  'pulls',
+  'search',
   'branch',
-  'branches',
-  'compare',
-  'labels',
   'releases',
-  'issues',
-  'milestones',
   'contributors',
   'pr',
+  'compare',
+  'label',
+  'commit',
+  'open',
+  // default actions as github
+  'settings',
+  'milestones',
+  'pulls',
+  'labels',
+  'tags',
+  'issues',
+  'wiki',
+  'actions',
+  'branches',
 ]
 const options = {
   action: {
     description: 'Action name',
     choices: actions,
     alias: 'a',
+    default: 'open',
   },
   user: {
     description: 'Username',
     type: 'string',
     alias: 'u',
+  },
+  name: {
+    description: 'Repo name',
+    type: 'string',
+    alias: 'n',
   },
   param: {
     description: 'Action parameter',
@@ -61,7 +76,7 @@ module.exports = {
   command: 'gh [repo]',
   builder: (yargs) => {
     return yargs.options(options).completion('completion', (_, argv) => {
-      if (argv.action) return actions
+      if (argv.action !== 'open') return actions
       return Object.keys(repos)
     })
   },
@@ -75,23 +90,30 @@ module.exports = {
     }
     const actionLink = match(action, {
       pr: 'pull-requests/new',
+      search: `search?q=${param}`,
+      commit: `commit/${param}`,
       contributors: 'graphs/contributors',
-      labels: ['labels', ...insertIf(param, param)].join('/'),
+      label: ['labels', ...insertIf(param, param)].join('/'),
       pull: `pull/${param}`,
+      open: '',
       branch: `tree/${param}`,
       compare: `compare/${base}...${getBranch()}`,
-      _: '',
+      _: action,
     })
-    const repo = repos[argv.repo]
+    const { user = argv.user, name = argv.name } = repos[argv.repo] || {}
 
-    if (argv.repo && !repo) {
-      throwError(`Repo alias ${argv.repo} is invalid`)
+    if (argv.repo && !user) {
+      throwError(
+        `Repo alias "${argv.repo}" is invalid`,
+        argv.repo,
+        Object.keys(repos)
+      )
     }
 
     const url = buildURL([
       hosts[server],
-      argv.repo ? repo.user : argv.user,
-      ...insertIf(argv.repo, repo && repo.name),
+      user,
+      ...insertIf(name, name),
       actionLink,
     ])
     handleURL({ argv, url })

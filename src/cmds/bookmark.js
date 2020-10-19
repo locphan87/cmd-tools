@@ -44,7 +44,7 @@ module.exports = {
     const { alias, bookmarks } = argv
     const url = bookmarks[alias]
     if (!url) {
-      throwError(`Invalid alias ${alias}`)
+      throwError(`Invalid alias "${alias}"`, alias, Object.keys(bookmarks))
     }
     handleURL({ argv, url })
   },
