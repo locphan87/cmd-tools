@@ -3,14 +3,15 @@ const { bookmarks, bookmarkConfig } = require('../../.wsrc')
 
 const getBookmarksFromTag = (tag) => {
   return Object.keys(bookmarkConfig).reduce((acc, k) => {
-    const [_name, _url, tags] = bookmarkConfig[k]
+    const [_name, _url, tags] = bookmarkConfig[k] // eslint-disable-line
     if (tags.includes(`#${tag}`)) return acc.concat(k)
     return acc
   }, [])
 }
 const getTags = () => {
   return Object.keys(bookmarkConfig).reduce((acc, k) => {
-    const [_, __, tags] = bookmarkConfig[k]
+    const [_, __, tags] = bookmarkConfig[k] // eslint-disable-line
+
     const tagList = tags.replace(/#/g, '').split(',')
     return acc.concat(tagList)
   }, [])
@@ -24,10 +25,12 @@ module.exports = {
     return yargs
       .options({
         tag: {
+          description: 'Find a tag',
           alias: 't',
           type: 'string',
         },
         tags: {
+          description: 'Find all tags',
           type: 'boolean',
         },
       })

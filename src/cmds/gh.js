@@ -47,13 +47,14 @@ const options = {
   server: {
     description: 'Github server',
     type: 'string',
-    choices: ['github'],
+    choices: ['github', 'n'],
     demandOption: true,
-    default: 'github',
+    default: 'n',
   },
 }
 const hosts = {
   github: 'https://github.com',
+  n: process.env.GIT_N_HOST,
 }
 
 module.exports = {
@@ -90,7 +91,7 @@ module.exports = {
     const url = buildURL([
       hosts[server],
       argv.repo ? repo.user : argv.user,
-      ...insertIf(argv.repo, repo.name),
+      ...insertIf(argv.repo, repo && repo.name),
       actionLink,
     ])
     handleURL({ argv, url })
