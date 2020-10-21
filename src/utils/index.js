@@ -14,11 +14,13 @@ const throwError = (message, value, suggestionList) => {
       if (v.includes(value)) return acc.concat(v)
       return acc
     }, [])
-    console.info(
-      `${colors.FgYellow}%s${colors.Reset}`,
-      'Suggestions:',
-      list.join(', ')
-    )
+    if (list.lenngth) {
+      console.info(
+        `${colors.FgYellow}%s${colors.Reset}`,
+        'Suggestions:',
+        list.join(', ')
+      )
+    }
   }
   process.exit(-1)
 }
