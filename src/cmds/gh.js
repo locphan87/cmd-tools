@@ -1,7 +1,14 @@
 const { execSync } = require('child_process')
-const { repos } = require('../../.wsrc')
-const { throwError, handleURL, buildURL, match, insertIf } = require('../utils')
+const {
+  throwError,
+  handleURL,
+  buildURL,
+  match,
+  insertIf,
+  getConfigs,
+} = require('../utils')
 
+const { repos } = getConfigs('ws')
 const getCurrentBranch = () => {
   return execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
 }

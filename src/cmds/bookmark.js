@@ -1,6 +1,6 @@
-const { handleURL, throwError } = require('../utils')
-const { bookmarks, bookmarkConfig } = require('../../.wsrc')
+const { handleURL, throwError, getConfigs } = require('../utils')
 
+const { bookmarks, bookmarkConfig } = getConfigs('ws')
 const getBookmarksFromTag = (tag) => {
   return Object.keys(bookmarkConfig).reduce((acc, k) => {
     const [_name, _url, tags] = bookmarkConfig[k] // eslint-disable-line

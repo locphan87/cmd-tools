@@ -1,6 +1,8 @@
 const yargs = require('yargs')
 
-const config = require('../.wsrc')
+const { getConfigs } = require('./utils')
+
+const config = getConfigs('ws')
 
 const run = () => {
   yargs

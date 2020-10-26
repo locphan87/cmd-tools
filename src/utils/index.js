@@ -3,6 +3,7 @@ const { execSync } = require('child_process')
 const match = require('match-values').default
 const insertIf = require('insert-if').default
 
+const homeDir = require('os').homedir()
 const throwError = (message, value, suggestionList) => {
   console.error(
     `${colors.FgRed}%s${colors.FgBlue}%s${colors.Reset}`,
@@ -77,6 +78,14 @@ const handleURL = (options) => {
     openInBrowser(url)
   }
 }
+const getConfigs = (scriptName) => {
+  const fileName = `${homeDir}/.config/cmd-tools/.${scriptName}rc.js`
+  try {
+    return require(fileName)
+  } catch (e) {
+    return {}
+  }
+}
 
 module.exports = {
   match,
@@ -87,4 +96,5 @@ module.exports = {
   colors,
   throwError,
   handleURL,
+  getConfigs,
 }
