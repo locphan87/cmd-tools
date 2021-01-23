@@ -13,8 +13,18 @@ read -p "Enter your tags: " tags
 # Making the file name
 FILE_NAME=$(date +$DATE_FORMAT).$newTitle.md
 # Add title and tags to the file
-echo "# $title\n$tags\n\n\n\n## Authors\n\n## Remarks\n\n## References\n" > $FILE_NAME
+# echo "# $title\n$tags\n\n\n\n## Authors\n\n## Remarks\n\n## References\n" > $FILE_NAME
+echo "---
+tags: '$tags'
+title: '$title'
+authors:
+---
+
+## Remarks
+
+## References
+" > $FILE_NAME
 
 # Open the file and move to the 4th line
-vim "+normal 4gg" $FILE_NAME
+vim "+normal gg" $FILE_NAME
 
