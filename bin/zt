@@ -4,19 +4,16 @@ echo "Creating a new Zettel"
 # YMD.HMS
 DATE_FORMAT="%Y%m%d.%H%M%S"
 
-read -p "Enter your title: " title
 # Replace space by dash and convert to lowercase
 newTitle=$(echo $title | tr " " "-" | tr '[:upper:]' '[:lower:]')
 
-read -p "Enter your tags: " tags
-
 # Making the file name
 FILE_NAME=$(date +$DATE_FORMAT).$newTitle.md
-# Add title and tags to the file
-# echo "# $title\n$tags\n\n\n\n## Authors\n\n## Remarks\n\n## References\n" > $FILE_NAME
 echo "---
-tags: '$tags'
-title: '$title'
+title: $1
+tags: '$2'
+address: $3
+parent: $4
 authors:
 ---
 
