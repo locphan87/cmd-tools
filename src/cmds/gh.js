@@ -71,7 +71,7 @@ const options = {
     type: 'string',
     choices: ['github', 'n'],
     demandOption: true,
-    default: 'n',
+    default: 'github',
   },
 }
 const hosts = {

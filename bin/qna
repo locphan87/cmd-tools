@@ -1,10 +1,9 @@
 #!/bin/sh
 
-
 # Sample
-# zt "what is deep work" "#deep-work #focus"
+# qna "deck name"
 
-echo "Creating a new Zettel"
+echo "Creating an Anki deck"
 
 title=$1
 
@@ -16,12 +15,9 @@ newTitle=$(echo $title | tr " " "-" | tr '[:upper:]' '[:lower:]')
 
 # Making the file name
 FILE_NAME=$(date +$DATE_FORMAT).$newTitle.md
-echo "# $1
-$2
+echo "## $1?
 
-## Remarks
 
-## References
 " > $FILE_NAME
 
 # Open the file and move to the 4th line
