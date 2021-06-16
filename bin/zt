@@ -21,9 +21,14 @@ $2
 
 ## Remarks
 
+## Authors
+
 ## References
+
 " > $FILE_NAME
 
+eho "Created a Zettel $FILE_NAME"
+
 # Open the file and move to the 4th line
-vim "+normal gg" $FILE_NAME
+# vim "+normal gg" $FILE_NAME
 
