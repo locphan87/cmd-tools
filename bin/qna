@@ -15,11 +15,15 @@ newTitle=$(echo $title | tr " " "-" | tr '[:upper:]' '[:lower:]')
 
 # Making the file name
 FILE_NAME=$(date +$DATE_FORMAT).$newTitle.md
-echo "## $1?
+echo "# $1?
+
+## 
 
 
 " > $FILE_NAME
 
+echo "Created a QNA $FILE_NAME"
+
 # Open the file and move to the 4th line
-vim "+normal gg" $FILE_NAME
+# vim "+normal gg" $FILE_NAME
 
